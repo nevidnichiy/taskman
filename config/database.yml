@@ -24,6 +24,5 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: nev-taskman_production
-  username: nev-taskman
-  password: <%= ENV['NEV-TASKMAN_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>

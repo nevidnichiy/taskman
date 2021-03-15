@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Projects</h1>
+
+<table class="table bordered">
+  <thead>
+    <tr>
+      <th>Project name</td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td>
+          <%= link_to project.name, project %>
+
+          <%= link_to edit_project_path(project) do %>
+              <span class="mif-pencil fg-green"></span>
+          <% end %>
+          <%= link_to  project, method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
+              <span class="mif-bin fg-red"></span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Project', new_project_path %>

@@ -1,0 +1,67 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <h1>
+  <%= link_to projects_path do %>
+      <span class="mif-arrow-left fg-blue"></span>
+  <% end %>
+
+  <%= @project.name %>
+
+  <%= link_to edit_project_path(@project) do %>
+      <span class="mif-pencil fg-green"></span>
+  <% end %>
+
+  <span class="mif-bin fg-red"></span>
+  </h1>
+
+
+</p>
+
+
+<%= form_for(@project, :html=>{:class => "inline-form", :id=>"new_task",:multipart => true,:remote=>true}) do |f |%>
+  <%= f.fields_for :task do |t| %>
+    <%= t.text_field :title, :placeholder => "Enter task title", :class => "metro-input" %>
+    <%= t.submit "Create task" %>
+  <% end %>
+<% end %>
+
+<table class="table row-hover row-border">
+  <thead>
+    <tr>
+      <th>Completed</th>
+      <th>Title</th>
+      <th>Due date</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @project.tasks.each do |task| %>
+      <tr id="row_<%= task.id %>" <%= 'class=completed' if task.completed %> data-rowid="<%= task.id %>" data-position="<%= task.position %>">
+        <td><input class="j-completed" type="checkbox" <%= 'checked' if task.completed %> data-role="checkbox" data-task="<%= task.id %>"></td>
+        <td><%= task.title %></td>
+        <td><%= task.due_date.strftime('%d.%m.%Y') %></td>
+        <td><%= task.description %></td>
+        <td>
+          <%= link_to [@project, task] do %>
+              <span class="mif-eye fg-blue"></span>
+          <% end %>
+          <%= link_to edit_project_task_path(@project, task) do %>
+              <span class="mif-pencil fg-green"></span>
+          <% end %>
+          <%= link_to [@project, task], method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
+              <span class="mif-bin fg-red"></span>
+          <% end %>
+
+          <span class="j-up mif-chevron-thin-up fg-blue"></span>
+          <span class="j-down mif-chevron-thin-down fg-blue"></span>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Task', new_project_task_path(@project) %>
